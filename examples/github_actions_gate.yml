@@ -1,0 +1,45 @@
+# Example: gate a data deployment in GitHub Actions.
+# `reliability` exits 2 when the circuit opens, which fails the step and stops
+# the publish job. Reports are uploaded either way for the on-call engineer.
+name: payments-data-gate
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 6 * * *"
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt && pip install .
+      - name: Fetch today's extract (placeholder)
+        run: echo "copy payments_source.csv, payments_target.csv, payments_rejected.csv, policies.csv into data/"
+      - name: Reliability gate - contract
+        env:
+          RELIABILITY_WEBHOOK_URL: ${{ secrets.RELIABILITY_WEBHOOK_URL }}
+          RELIABILITY_ALERT_DRY_RUN: "false"
+        run: >
+          reliability check
+          --contract configs/contracts/payments_source.yaml
+          --data data/payments_source.csv --data policies=data/policies.csv
+          --lineage configs/lineage.yaml --out-dir gate/contract
+      - name: Reliability gate - reconciliation
+        run: >
+          reliability reconcile --config configs/reconciliation/payments.yaml
+          --source data/payments_source.csv --target data/payments_target.csv
+          --rejected data/payments_rejected.csv --lineage configs/lineage.yaml --out-dir gate/recon
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reliability-gate
+          path: gate/
+
+  publish:
+    needs: gate
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "publish reporting marts (only runs when the gate passed)"
