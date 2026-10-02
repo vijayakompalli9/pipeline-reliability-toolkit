@@ -1,0 +1,121 @@
+{
+  "routing_key": "<PAGERDUTY_ROUTING_KEY>",
+  "event_action": "trigger",
+  "dedup_key": "reliability-payments_source-payments_target",
+  "payload": {
+    "summary": "[OPEN] Data reliability gate: payments_source, payments_target: 5 blocking failure(s): column_type_changed:branch_code, row_count, control_total:amount, duplicates:payment_id, rejected_accounting",
+    "source": "pipeline-reliability-toolkit",
+    "severity": "critical",
+    "timestamp": "2026-09-30T06:00:00+00:00",
+    "custom_details": {
+      "run_id": "demo-2026-09-30",
+      "blocking": [
+        {
+          "check": "column_type_changed",
+          "category": "drift",
+          "dataset": "payments_source",
+          "passed": false,
+          "severity": "critical",
+          "column": "branch_code",
+          "observed": "VARCHAR",
+          "expected": "integer",
+          "failed_count": 1,
+          "message": "BREAKING: incompatible type integer -> string",
+          "error": false,
+          "details": {
+            "column": "branch_code",
+            "change": "type_changed",
+            "expected_type": "integer",
+            "observed_type": "VARCHAR",
+            "breaking": true,
+            "reason": "incompatible type integer -> string"
+          }
+        },
+        {
+          "check": "row_count",
+          "category": "reconciliation",
+          "dataset": "payments_target",
+          "passed": false,
+          "severity": "critical",
+          "column": null,
+          "observed": {
+            "source": 5000,
+            "target": 4855,
+            "diff": 145,
+            "diff_pct": 2.9
+          },
+          "expected": {
+            "max_abs_diff": 25.0
+          },
+          "failed_count": 145,
+          "message": "source=5000 target=4855 diff=145 (2.9%)",
+          "error": false,
+          "details": {}
+        },
+        {
+          "check": "control_total",
+          "category": "reconciliation",
+          "dataset": "payments_target",
+          "passed": false,
+          "severity": "critical",
+          "column": "amount",
+          "observed": {
+            "source_sum": 6428556.83,
+            "target_sum": 6212911.61,
+            "diff": 215645.22
+          },
+          "expected": {
+            "max_abs_diff": 642.855683
+          },
+          "failed_count": 1,
+          "message": "sum(amount) source=6,428,556.83 target=6,212,911.61 diff=215,645.22",
+          "error": false,
+          "details": {}
+        },
+        {
+          "check": "duplicates",
+          "category": "reconciliation",
+          "dataset": "payments_target",
+          "passed": false,
+          "severity": "critical",
+          "column": "payment_id",
+          "observed": {
+            "duplicate_keys": 25,
+            "extra_rows": 25
+          },
+          "expected": {
+            "max_extra_rows": 0
+          },
+          "failed_count": 25,
+          "message": "25 keys loaded more than once (25 extra rows)",
+          "error": false,
+          "details": {}
+        },
+        {
+          "check": "rejected_accounting",
+          "category": "reconciliation",
+          "dataset": "payments_target",
+          "passed": false,
+          "severity": "critical",
+          "column": null,
+          "observed": {
+            "missing_keys": 170,
+            "rejected_rows": 20,
+            "unaccounted": 150
+          },
+          "expected": {
+            "max_unaccounted": 0
+          },
+          "failed_count": 150,
+          "message": "170 source keys missing from target; 20 explained by rejects; 150 unaccounted",
+          "error": false,
+          "details": {}
+        }
+      ],
+      "warnings": [
+        "freshness",
+        "referential"
+      ]
+    }
+  }
+}

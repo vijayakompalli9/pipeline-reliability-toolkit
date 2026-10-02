@@ -1,0 +1,439 @@
+{
+  "run_id": "demo-2026-09-30",
+  "as_of": "2026-09-30T06:00:00+00:00",
+  "circuit_state": "open",
+  "exit_code": 2,
+  "results": [
+    {
+      "check": "column_type_changed",
+      "category": "drift",
+      "dataset": "payments_source",
+      "passed": false,
+      "severity": "critical",
+      "column": "branch_code",
+      "observed": "VARCHAR",
+      "expected": "integer",
+      "failed_count": 1,
+      "message": "BREAKING: incompatible type integer -> string",
+      "error": false,
+      "details": {
+        "column": "branch_code",
+        "change": "type_changed",
+        "expected_type": "integer",
+        "observed_type": "VARCHAR",
+        "breaking": true,
+        "reason": "incompatible type integer -> string"
+      }
+    },
+    {
+      "check": "not_null",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "payment_id",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.0
+      },
+      "failed_count": 0,
+      "message": "0 null rows (0.0%)",
+      "error": false,
+      "details": {
+        "source": "schema"
+      }
+    },
+    {
+      "check": "not_null",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "policy_id",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.0
+      },
+      "failed_count": 0,
+      "message": "0 null rows (0.0%)",
+      "error": false,
+      "details": {
+        "source": "schema"
+      }
+    },
+    {
+      "check": "not_null",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "payment_type",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.0
+      },
+      "failed_count": 0,
+      "message": "0 null rows (0.0%)",
+      "error": false,
+      "details": {
+        "source": "schema"
+      }
+    },
+    {
+      "check": "not_null",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "amount",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.0
+      },
+      "failed_count": 0,
+      "message": "0 null rows (0.0%)",
+      "error": false,
+      "details": {
+        "source": "schema"
+      }
+    },
+    {
+      "check": "not_null",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "currency",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.0
+      },
+      "failed_count": 0,
+      "message": "0 null rows (0.0%)",
+      "error": false,
+      "details": {
+        "source": "schema"
+      }
+    },
+    {
+      "check": "not_null",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "status",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.0
+      },
+      "failed_count": 0,
+      "message": "0 null rows (0.0%)",
+      "error": false,
+      "details": {
+        "source": "schema"
+      }
+    },
+    {
+      "check": "not_null",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "event_ts",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.0
+      },
+      "failed_count": 0,
+      "message": "0 null rows (0.0%)",
+      "error": false,
+      "details": {
+        "source": "schema"
+      }
+    },
+    {
+      "check": "unique",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "payment_id",
+      "observed": {
+        "duplicate_keys": 0,
+        "extra_rows": 0
+      },
+      "expected": "0 duplicates",
+      "failed_count": 0,
+      "message": "0 keys duplicated, 0 extra rows",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "regex",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "warn",
+      "column": "payment_id",
+      "observed": {
+        "non_matching_rows": 0
+      },
+      "expected": "^PAY-\\d{7}$",
+      "failed_count": 0,
+      "message": "0 rows do not match pattern",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "range",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "amount",
+      "observed": {
+        "min": 34.89,
+        "max": 42124.61
+      },
+      "expected": {
+        "min": 0,
+        "max": 250000
+      },
+      "failed_count": 0,
+      "message": "0 rows outside [0, 250000]",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "regex",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "warn",
+      "column": "currency",
+      "observed": {
+        "non_matching_rows": 0
+      },
+      "expected": "^[A-Z]{3}$",
+      "failed_count": 0,
+      "message": "0 rows do not match pattern",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "accepted_values",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": "status",
+      "observed": {
+        "rows": 0,
+        "distinct_unexpected_values": 0
+      },
+      "expected": [
+        "SETTLED",
+        "PENDING",
+        "FAILED",
+        "REVERSED"
+      ],
+      "failed_count": 0,
+      "message": "0 rows with 0 unexpected distinct values",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "accepted_values",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "warn",
+      "column": "payment_type",
+      "observed": {
+        "rows": 0,
+        "distinct_unexpected_values": 0
+      },
+      "expected": [
+        "PREMIUM",
+        "CLAIM_PAYOUT",
+        "REFUND"
+      ],
+      "failed_count": 0,
+      "message": "0 rows with 0 unexpected distinct values",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "freshness",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": false,
+      "severity": "warn",
+      "column": "event_ts",
+      "observed": {
+        "latest": "2026-09-29T00:00:00",
+        "age_hours": 30.0
+      },
+      "expected": {
+        "max_age_hours": 24.0
+      },
+      "failed_count": 1,
+      "message": "newest record is 30.0h old (limit 24h)",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "row_count_min",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": true,
+      "severity": "critical",
+      "column": null,
+      "observed": 5000,
+      "expected": {
+        "min": 1000
+      },
+      "failed_count": 0,
+      "message": "5000 rows (minimum 1000)",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "referential",
+      "category": "quality",
+      "dataset": "payments_source",
+      "passed": false,
+      "severity": "warn",
+      "column": "policy_id",
+      "observed": {
+        "orphan_rows": 6,
+        "orphan_keys": 6
+      },
+      "expected": "policies.policy_id",
+      "failed_count": 6,
+      "message": "6 rows reference 6 keys missing from policies.policy_id",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "row_count",
+      "category": "reconciliation",
+      "dataset": "payments_target",
+      "passed": false,
+      "severity": "critical",
+      "column": null,
+      "observed": {
+        "source": 5000,
+        "target": 4855,
+        "diff": 145,
+        "diff_pct": 2.9
+      },
+      "expected": {
+        "max_abs_diff": 25.0
+      },
+      "failed_count": 145,
+      "message": "source=5000 target=4855 diff=145 (2.9%)",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "control_total",
+      "category": "reconciliation",
+      "dataset": "payments_target",
+      "passed": false,
+      "severity": "critical",
+      "column": "amount",
+      "observed": {
+        "source_sum": 6428556.83,
+        "target_sum": 6212911.61,
+        "diff": 215645.22
+      },
+      "expected": {
+        "max_abs_diff": 642.855683
+      },
+      "failed_count": 1,
+      "message": "sum(amount) source=6,428,556.83 target=6,212,911.61 diff=215,645.22",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "duplicates",
+      "category": "reconciliation",
+      "dataset": "payments_target",
+      "passed": false,
+      "severity": "critical",
+      "column": "payment_id",
+      "observed": {
+        "duplicate_keys": 25,
+        "extra_rows": 25
+      },
+      "expected": {
+        "max_extra_rows": 0
+      },
+      "failed_count": 25,
+      "message": "25 keys loaded more than once (25 extra rows)",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "null_threshold",
+      "category": "reconciliation",
+      "dataset": "payments_target",
+      "passed": true,
+      "severity": "warn",
+      "column": "policy_id",
+      "observed": {
+        "null_rows": 0,
+        "null_pct": 0.0
+      },
+      "expected": {
+        "max_null_pct": 0.5
+      },
+      "failed_count": 0,
+      "message": "0.0% null in target (limit 0.5%)",
+      "error": false,
+      "details": {}
+    },
+    {
+      "check": "rejected_accounting",
+      "category": "reconciliation",
+      "dataset": "payments_target",
+      "passed": false,
+      "severity": "critical",
+      "column": null,
+      "observed": {
+        "missing_keys": 170,
+        "rejected_rows": 20,
+        "unaccounted": 150
+      },
+      "expected": {
+        "max_unaccounted": 0
+      },
+      "failed_count": 150,
+      "message": "170 source keys missing from target; 20 explained by rejects; 150 unaccounted",
+      "error": false,
+      "details": {}
+    }
+  ]
+}
