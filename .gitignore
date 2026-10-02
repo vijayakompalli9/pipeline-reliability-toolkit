@@ -1,0 +1,16 @@
+# secrets
+.env
+# environments / caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+# generated data and run outputs (docs/sample_output is committed on purpose)
+data/
+out/
+gate/
+*.duckdb
