@@ -1,0 +1,49 @@
+name: Run demo
+
+# "Run workflow" on the Actions tab: generate a synthetic payments load with
+# injected defects, run contracts, drift detection and reconciliation, and
+# publish the reliability report and incident note to the run summary.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install
+        run: |
+          pip install -r requirements.txt
+          pip install -e . --no-deps
+      - name: Run the reliability demo
+        run: python -m reliability.demo --out demo-out --data-dir data/demo
+      - name: Gate check as a pipeline would use it (expected to block - exit 2)
+        run: |
+          set +e
+          reliability check --contract configs/contracts/payments_source.yaml \
+            --data data/demo/payments_source.csv --data policies=data/demo/policies.csv \
+            --as-of 2026-09-30T06:00:00+00:00 > demo-out/gate.txt 2>&1
+          echo "exit_code=$?" >> demo-out/gate.txt
+          exit 0
+      - name: Publish results to the run summary
+        run: |
+          {
+            echo "## Pipeline reliability toolkit - demo run"
+            echo
+            echo "Gate result: $(tail -n 1 demo-out/gate.txt) (2 = circuit open, downstream load blocked as designed)"
+            echo
+            cat demo-out/report.md
+            echo
+            cat demo-out/incident_note.md
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reliability-demo-output
+          path: demo-out/
