@@ -1,0 +1,14 @@
+# Source extract vs. warehouse table after load.
+name: payments_source_to_target
+source: payments_source
+target: payments_target
+rejected: payments_rejected       # loader's reject file (optional)
+key: [payment_id]
+
+row_count:        {tolerance_pct: 0.5, severity: critical}
+control_totals:
+  - {column: amount, tolerance_pct: 0.01, tolerance_abs: 1.00, severity: critical}
+duplicates:       {tolerance_rows: 0, severity: critical}
+null_thresholds:
+  - {column: policy_id, max_null_pct: 0.5, severity: warn}
+rejected_records: {tolerance_rows: 0, severity: critical}
