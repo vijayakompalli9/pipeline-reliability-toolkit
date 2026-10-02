@@ -1,8 +1,22 @@
 # Pipeline Reliability Toolkit
 
+[![CI](https://github.com/vijayakompalli9/pipeline-reliability-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/vijayakompalli9/pipeline-reliability-toolkit/actions/workflows/ci.yml) [![Run demo](https://github.com/vijayakompalli9/pipeline-reliability-toolkit/actions/workflows/demo.yml/badge.svg)](https://github.com/vijayakompalli9/pipeline-reliability-toolkit/actions/workflows/demo.yml) ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+
 > **Portfolio project.** Independently built demonstration using synthetic data. It is not code from, or affiliated with, any current or former employer or client. Developed with AI-assisted tooling and reviewed by the author.
 
+![pipeline-reliability-toolkit overview](https://vijayakompalli9.github.io/images/pipeline-reliability-toolkit.png)
+
 Production pipelines at regulated firms rarely fail loudly. More often they break quietly: an upstream export changes a column type, a loader dies halfway through and a retry appends the same rows twice, or a file arrives a day late. Reports still refresh, but the numbers are wrong. The on-call engineer then spends hours working out which of those things happened. This toolkit is a lightweight, config-driven **reliability gate** that runs between "data landed" and "data published". It checks data quality against YAML contracts, detects schema drift, reconciles source with target, and **trips a circuit breaker** (non-zero exit code plus an alert payload) so downstream loads stop. It also writes a plain-language incident note that names the likely root cause and the blast radius, so triage takes minutes.
+
+## Try it without installing anything
+
+1. Open the [**Run demo** workflow](https://github.com/vijayakompalli9/pipeline-reliability-toolkit/actions/workflows/demo.yml).
+2. Click **Run workflow** (you need to be signed in to GitHub), then open the run when it finishes, in about 2–4 minutes.
+3. Read the results on the run's **Summary** page, or download the `*-demo-output` artifact.
+
+The demo generates a synthetic payments load with five injected defects (type drift, missing rows, duplicates, a late file, orphan references), runs contracts, drift detection and reconciliation, and posts the reliability report and incident note to the run summary. The gate step exits with code 2, which is how a real pipeline would stop a downstream load.
+
+Tested with Python 3.11 / 3.13 · DuckDB. Every push to `main` also runs the [CI workflow](https://github.com/vijayakompalli9/pipeline-reliability-toolkit/actions/workflows/ci.yml): lint, the full test suite and a smoke run.
 
 ## What this demonstrates
 
