@@ -1,0 +1,26 @@
+# Minimal lineage: who reads from whom. Used for incident blast radius.
+datasets:
+  payments_source:
+    owner: billing-data-eng
+    downstream: [payments_target]
+  payments_target:
+    owner: billing-data-eng
+    criticality: high
+    downstream: [fct_daily_cash_receipts, agg_claims_paid_by_line]
+  fct_daily_cash_receipts:
+    owner: finance-analytics
+    criticality: high
+    downstream: [rpt_statutory_cash_flow, dash_treasury_liquidity]
+  agg_claims_paid_by_line:
+    owner: actuarial-analytics
+    criticality: medium
+    downstream: [rpt_loss_ratio_monthly]
+  rpt_statutory_cash_flow:
+    owner: regulatory-reporting
+    criticality: critical
+  dash_treasury_liquidity:
+    owner: treasury
+    criticality: high
+  rpt_loss_ratio_monthly:
+    owner: actuarial-analytics
+    criticality: medium
