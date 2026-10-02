@@ -1,0 +1,30 @@
+# Contract for the daily premium/claim payments extract landed by the
+# (fictional) Northwind Mutual Insurance billing system.
+dataset: payments_source
+owner: billing-data-eng
+description: Daily payments extract (premiums, claim payouts, refunds).
+
+schema:
+  - {name: payment_id,   type: string,    nullable: false}
+  - {name: policy_id,    type: string,    nullable: false}
+  - {name: branch_code,  type: integer,   nullable: true}
+  - {name: payment_type, type: string,    nullable: false}
+  - {name: amount,       type: number,    nullable: false}
+  - {name: currency,     type: string,    nullable: false}
+  - {name: status,       type: string,    nullable: false}
+  - {name: event_ts,     type: timestamp, nullable: false}
+
+drift:
+  allow_added_columns: true   # additive columns are non-breaking
+
+# Non-nullable schema columns automatically get a critical not_null rule.
+rules:
+  - {type: unique,          column: payment_id, severity: critical}
+  - {type: regex,           column: payment_id, pattern: '^PAY-\d{7}$', severity: warn}
+  - {type: range,           column: amount, min: 0, max: 250000, severity: critical}
+  - {type: regex,           column: currency, pattern: '^[A-Z]{3}$', severity: warn}
+  - {type: accepted_values, column: status, values: [SETTLED, PENDING, FAILED, REVERSED], severity: critical}
+  - {type: accepted_values, column: payment_type, values: [PREMIUM, CLAIM_PAYOUT, REFUND], severity: warn}
+  - {type: freshness,       column: event_ts, max_age_hours: 24, severity: warn}
+  - {type: row_count_min,   min: 1000, severity: critical}
+  - {type: referential,     column: policy_id, ref_table: policies, ref_column: policy_id, severity: warn}
